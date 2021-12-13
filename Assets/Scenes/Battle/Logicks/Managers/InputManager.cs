@@ -7,9 +7,9 @@ namespace Scenes.Battle.Logicks.Services
     public class InputManager : IUpdateable 
     {
         
-       private readonly BehaviorSubject<bool> _rightMouseDown = new BehaviorSubject<bool>(false);
+       private readonly BehaviorSubject<Vector2?> _rightMouseDown = new BehaviorSubject<Vector2?>(null);
 
-       public IObservable<bool> RightMouseDownObs => _rightMouseDown.AsObservable();
+       public IObservable<Vector2?> RightMouseDownObs => _rightMouseDown.AsObservable();
 
 
        private static InputManager _inputManager;
@@ -27,12 +27,20 @@ namespace Scenes.Battle.Logicks.Services
        {
            if (Input.GetMouseButtonDown(1))
            {
-               _rightMouseDown.OnNext(true);
+               _rightMouseDown.OnNext(Input.mousePosition);
+           }
+           else
+           {
+               _rightMouseDown.OnNext(null);
            }
 
            if (Input.GetMouseButtonUp(1))
            {
-               _rightMouseDown.OnNext(false);
+               _rightMouseDown.OnNext(Input.mousePosition);
+           }
+           else
+           {
+               _rightMouseDown.OnNext(null);
            }
            
        }
