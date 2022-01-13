@@ -18,12 +18,10 @@ namespace Scenes.Battle.Logicks.Behaviours
                 .Subscribe( isSelected => _spriteRenderer.enabled = isSelected)
                 .AddTo(this);
 
-            InputManager.Instance().RightMouseDownObs.Subscribe(isPressed => Debug.Log(isPressed.ToString()));
         }
 
         private void OnMouseDown()
         {
-            Debug.Log(this.GetInstanceID());
             SelectionManager.Instance().Select(this);
         }
 

@@ -4,12 +4,31 @@ using UnityEngine;
 
 namespace Scenes.Battle.Logicks.Services
 {
+    public readonly struct MouseClick
+    {
+        private readonly Vector2 _screenClickCoord;
+
+        public Vector2 ScreenClickCoord => _screenClickCoord;
+
+        private readonly Vector2 _worldClickCoord;
+        public Vector2 WorldClickCoord => _worldClickCoord;
+
+        public MouseClick(Vector2 screenClickCoord)
+        {
+            _screenClickCoord = screenClickCoord;
+            _worldClickCoord = Camera.current.ScreenToWorldPoint(screenClickCoord);
+            Debug.Log(this.ToString());
+        }
+        
+    }
+    
     public class InputManager : IUpdateable 
     {
         
        private readonly BehaviorSubject<Vector2?> _rightMouseDown = new BehaviorSubject<Vector2?>(null);
 
-       public IObservable<Vector2?> RightMouseDownObs => _rightMouseDown.AsObservable();
+       public IObservable<MouseClick> RightMouseDownObs => _rightMouseDown.AsObservable()
+           .Select(coord => coord != null ? new MouseClick(coord.Value) : default);
 
 
        private static InputManager _inputManager;

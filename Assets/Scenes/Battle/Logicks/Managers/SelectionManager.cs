@@ -31,3 +31,4 @@ namespace Scenes.Battle.Logicks.Managers
         }
     }
 }
+
